@@ -1,0 +1,38 @@
+Day 35: Install Docker Packages and Start Docker Service
+
+The secret of success is to do the common things uncommonly well.
+
+– John D. Rockefeller
+
+The Nautilus DevOps team aims to containerize various applications following a recent meeting with the application development team. They intend to conduct testing with the following steps:
+
+   1. Install docker-ce and docker compose packages on App Server 1.
+
+   2. Initiate the docker service.
+
+[tony@stapp01 ~]$ history
+    1  clear
+    2  cat /etc/os-release 
+    3  docker --version 
+    4  systemctl status docekr
+    5  systemctl status docker 
+    6  rpm -qa | grep docker
+    7  sudo dnf update
+    8  sudo dnf install -y yum-utils
+    9  sudo yum-config-manager --add-repo https://docker.com
+   10  whatis yum-config-manager
+   11  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   12  ls /etc/yum.repos.d/docker*
+   13  sudo rm -f /etc/yum.repos.d/docker.com.repo 
+   14  ls /etc/yum.repos.d/docker*
+   15  sudo dnf clean all 
+   16  sudo dnf install -y dnf-plugins-core
+   17  sudo dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+   18  sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   19  docker --version 
+   20  systemctl status docker
+   21  systemctl enable --now docker
+   22  systemctl status docker
+   23  docker run hello-world
+   24  history
+[tony@stapp01 ~]$ 

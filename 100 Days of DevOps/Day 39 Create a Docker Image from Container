@@ -1,0 +1,133 @@
+Day 39: Create a Docker Image From Container
+
+For success attitude is equally important as ability.
+
+– Harry F.Bank
+
+One of the Nautilus developer was working to test new changes on a container. He wants to keep a backup of his changes to the container. 
+A new request has been raised for the DevOps team to create a new image from this container. Below are more details about it:
+
+a. Create an image media:xfusion on Application Server 3 from a container ubuntu_latest that is running on same server.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+[banner@stapp03 ~]$ docker ps
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS          PORTS     NAMES
+5c7f0c9f393b   ubuntu    "/bin/bash"   22 minutes ago   Up 22 minutes             ubuntu_latest
+[banner@stapp03 ~]$ 
+[banner@stapp03 ~]$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+ubuntu       latest    de7345b16e94   6 days ago   100MB
+[banner@stapp03 ~]$ 
+[banner@stapp03 ~]$ docker commit ubuntu_latest media:xfusion
+sha256:68a1ddadb53b4a97419a3cf45239e2b81068b0ff4aa4c98c39fd6bcdfc667411
+[banner@stapp03 ~]$ 
+[banner@stapp03 ~]$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+media        xfusion   68a1ddadb53b   5 seconds ago   141MB
+ubuntu       latest    de7345b16e94   6 days ago      100MB
+[banner@stapp03 ~]$ 
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+A good progression is:
+
+docker images – View available images.
+docker pull – Download an image.
+docker run – Create and start a container.
+docker ps – List running containers.
+docker exec -it – Access a running container.
+docker commit – Save a container's current state as a new image.
+docker stop / docker start / docker rm – Manage container lifecycle.
+docker rmi – Remove images.
+docker logs – View container logs.
+docker inspect – View detailed configuration and metadata.
+
+As you continue, you'll notice a pattern:
+
+Images are templates.
+Containers are running instances of those templates.
+Volumes store persistent data.
+Networks allow containers to communicate.
+Dockerfiles define how images are built in a repeatable way.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+The key lesson from this task is understanding the difference between a container and an image, and how to preserve changes made inside a running container.
+
+What you should learn
+
+A container is a running instance of an image
+
+Image → Template (read-only)
+Container → Running, writable instance of that template
+
+Example:
+
+ubuntu:latest (image)
+        │
+        ▼
+ubuntu_latest (running container)
+Changes inside a container are not automatically saved as an image
+If you install packages or modify files inside a container, those changes exist only in that container.
+
+docker commit creates a new image from a container
+Syntax:
+
+docker commit <container_name_or_id> <repository>:<tag>
+
+Example:
+
+docker commit ubuntu_latest media:xfusion
+
+This captures the container's current filesystem and saves it as a new image.
+
+Image naming convention
+Docker images are usually named as:
+
+repository:tag
+
+Examples:
+
+ubuntu:latest
+nginx:1.27
+media:xfusion
+
+Useful Docker commands
+Check running containers:
+
+docker ps
+
+List images:
+
+docker images
+
+Create an image from a container:
+
+docker commit <container> <image:tag>
+When to use docker commit
+Good for quickly backing up a container during testing or troubleshooting.
+Common in labs, demos, or emergency snapshots.
+Best practice in production
+While docker commit is useful, production environments typically use a Dockerfile to build images. A Dockerfile makes the build process reproducible, version-controlled, and easy for others to understand and rebuild.
+Quick memory trick
+
+Think of it like this:
+
+Image = Blueprint 📋
+Container = Running machine 🚀
+Commit = Take a snapshot of the running machine 📸
+Dockerfile = Instructions to build the machine from scratch 🏗️
+Exam/Lab tip
+
+If you see a task like:
+
+"Create an image <repo>:<tag> from a running container <container>"
+
+Immediately think:
+
+docker commit <container> <repo>:<tag>
+
+Then verify:
+
+docker images
+
+That's the core concept this exercise is designed to teach.
